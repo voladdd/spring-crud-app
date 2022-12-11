@@ -7,8 +7,8 @@ import java.util.List;
 @Service
 public class ProductService {
 
-    public List<Product> getProducts() {
+/*    public List<Product> getProducts() {
         return List.of(new Product(1L, "Бензопила", 1500));
-    }
+    }*/
 
 }
