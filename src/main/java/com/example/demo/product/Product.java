@@ -5,6 +5,8 @@ public class Product {
     private String title;
     private Integer price;
 
+    //comment
+
     public Product() {
     }
 
