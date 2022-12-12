@@ -1,5 +1,7 @@
 package com.example.demo.product;
 
+import com.example.demo.category.Category;
+import com.example.demo.category.CategoryRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -11,10 +13,13 @@ import java.util.Optional;
 public class ProductService {
 
     private final ProductRepository productRepository;
+    private final CategoryRepository categoryRepository;
 
-    public ProductService(ProductRepository productRepository) {
+    public ProductService(ProductRepository productRepository, CategoryRepository categoryRepository) {
         this.productRepository = productRepository;
+        this.categoryRepository = categoryRepository;
     }
+
 
     public List<Product> getProducts() {
         return productRepository.findAll();
@@ -60,5 +65,27 @@ public class ProductService {
             throw new IllegalStateException("products were not found");
         }
         return productOptional;
+    }
+
+    public void addCategoryToProduct(Long productId, Long categoryId) {
+        Product product = productRepository.findById(productId).orElseThrow(() -> new IllegalStateException(
+                "product with id " + productId + " does not exists"));
+        Category category = categoryRepository.findById(categoryId).orElseThrow(() -> new IllegalStateException(
+                "category with id " + categoryId + " does not exists"));
+
+        product.addCategory(category);
+        productRepository.save(product);
+    }
+
+    public void deleteCategoryFromProduct(Long productId, Long categoryId) {
+        Product product = productRepository.findById(productId).orElseThrow(() -> new IllegalStateException(
+                "product with id " + productId + " does not exists"));
+
+        if(!categoryRepository.existsById(categoryId)){
+            throw new IllegalStateException("category with id " + categoryId + " does not exists");
+        }
+
+        product.removeCategory(categoryId);
+        productRepository.save(product);
     }
 }

@@ -31,10 +31,21 @@ public class ProductController {
     public void registerNewProduct(@RequestBody Product product) {
         productService.addNewProduct(product);
     }
+    @PostMapping("/{productId}/category")
+    public void registerCategoryToProduct(@PathVariable("productId") Long productId,
+                                          @RequestParam(required = true) Long categoryId) {
+        productService.addCategoryToProduct(productId, categoryId);
+    }
 
     @DeleteMapping(path = "/{productId}")
     public void deleteProduct(@PathVariable("productId") Long productId) {
         productService.deleteProduct(productId);
+    }
+
+    @DeleteMapping("/{productId}/category")
+    public void deleteCategoryFromProduct(@PathVariable("productId") Long productId,
+                                          @RequestParam(required = true) Long categoryId) {
+        productService.deleteCategoryFromProduct(productId, categoryId);
     }
 
     @PutMapping(path = "/{productId}")
