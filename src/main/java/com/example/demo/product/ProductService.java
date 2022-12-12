@@ -1,6 +1,5 @@
 package com.example.demo.product;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -53,5 +52,13 @@ public class ProductService {
         if (price != null && price > 0 && !Objects.equals(product.getPrice(), price)) {
             product.setPrice(price);
         }
+    }
+
+    public List<Product> getProductsByCategoryId(Long categoryId) {
+        List<Product> productOptional = productRepository.findProductsByCategoriesId(categoryId);
+        if (productOptional.size() < 1){
+            throw new IllegalStateException("products were not found");
+        }
+        return productOptional;
     }
 }

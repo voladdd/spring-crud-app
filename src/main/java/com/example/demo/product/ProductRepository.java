@@ -9,7 +9,7 @@ import java.util.Optional;
 
 @Repository
 public interface ProductRepository extends JpaRepository<Product, Long> {
-/*    List<Product> findProductsByCategoryId(Long categoryId);*/
+    List<Product> findProductsByCategoriesId(Long categoryId);
 
     @Query("SELECT p FROM Product p WHERE p.title = ?1")
     Optional<Product> findProductByTitle(String title);

@@ -22,6 +22,11 @@ public class ProductController {
         return productService.getProducts();
     }
 
+    @GetMapping("/category/{categoryId}")
+    public List<Product> getProductsByCategoryId(@PathVariable("categoryId") Long categoryId) {
+        return productService.getProductsByCategoryId(categoryId);
+    }
+
     @PostMapping("")
     public void registerNewProduct(@RequestBody Product product) {
         productService.addNewProduct(product);
