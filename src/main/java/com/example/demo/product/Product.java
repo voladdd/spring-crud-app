@@ -13,7 +13,7 @@ public class Product {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
     @Column(name = "title")
     private String title;
@@ -32,22 +32,17 @@ public class Product {
     public Product() {
     }
 
-/*    public Product(long id, String title, Integer price) {
-        this.id = id;
-        this.title = title;
-        this.price = price;
-    }*/
 
     public Product(String title, Integer price) {
         this.title = title;
         this.price = price;
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -89,7 +84,7 @@ public class Product {
         category.getProducts().add(this);
     }
 
-    public void removeCategory(long categoryId) {
+    public void removeCategory(Long categoryId) {
         Category category = this.categories.stream().filter(c -> c.getId() == categoryId).findFirst().orElse(null);
         if (category != null) {
             this.categories.remove(category);
