@@ -4,6 +4,7 @@ import com.example.demo.product.Product;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -32,16 +33,17 @@ public class Category {
     @Transient
     private Integer totalPrice;
 
-    public List<Integer> getTopPrices() {
-        return topPrices;
-    }
-
-    public void setTopPrices(List<Integer> topPrices) {
-        this.topPrices = topPrices;
-    }
-
     @Transient
     private List<Integer> topPrices;
+
+    public List<Integer> getTopPrices() {
+        List<Integer> sortedTopPrices = this.products.stream().map(product -> product.getPrice()).sorted((o1, o2) -> o2 - o1).toList();
+        Integer max = 3;
+        if (sortedTopPrices.size() < max) {
+            max = sortedTopPrices.size();
+        }
+        return sortedTopPrices.subList(0, max);
+    }
 
     public Integer getTotalPrice() {
         AtomicReference<Integer> sum = new AtomicReference<>(0);
