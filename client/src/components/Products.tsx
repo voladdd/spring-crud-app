@@ -8,7 +8,12 @@ import {
   Modal,
 } from "react-bootstrap";
 import { ICategory } from "../http/categoryApi";
-import { fetchProducts, IProduct, putUpdateProduct } from "../http/productApi";
+import {
+  deleteProduct,
+  fetchProducts,
+  IProduct,
+  putUpdateProduct,
+} from "../http/productApi";
 
 interface ProductsProps {
   onSetCreateProduct: Dispatch<SetStateAction<IProduct[] | undefined>>;
@@ -107,10 +112,16 @@ const Products = (props: ProductsProps) => {
         </Modal.Body>
         <Modal.Footer>
           <Button
-            variant="secondary"
-            onClick={() => setFormChangeProduct(false)}
+            variant="outline-danger"
+            onClick={async () => {
+              await deleteProduct(productId);
+              fetchProducts().then((data) => {
+                props.onSetCreateProduct(data);
+              });
+              setFormChangeProduct(false);
+            }}
           >
-            Закрыть
+            Удалить
           </Button>
           <Button
             variant="primary"

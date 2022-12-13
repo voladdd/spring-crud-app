@@ -114,10 +114,11 @@ const Header = (props: HeaderProps) => {
 
               await postCreateProduct(productTitle, productPrice);
               let dataProducts = await fetchProducts();
-              await postAddCategoryToProduct(
-                dataProducts.length,
-                selectedCategory + 1
-              );
+              const lastId = dataProducts
+                .map((v) => v.id)
+                .sort((a, b) => b - a)[0];
+              console.log(lastId);
+              await postAddCategoryToProduct(lastId, selectedCategory + 1);
               dataProducts = await fetchProducts();
               props.onSetCreateProduct(dataProducts);
 

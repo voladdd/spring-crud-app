@@ -13,6 +13,11 @@ export const fetchProducts = async (): Promise<IProduct[]> => {
   return data;
 };
 
+export const deleteProduct = async (id: number): Promise<any> => {
+  const { data } = await $host.delete(`/products/${id}`);
+  return data;
+};
+
 export const postCreateProduct = async (
   title: string = "",
   price: number = 1
