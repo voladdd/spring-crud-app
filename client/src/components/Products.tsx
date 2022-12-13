@@ -13,9 +13,12 @@ const Products = (props: ProductsProps) => {
         {props.products.map((p) => (
           <Card key={p.id}>
             <Card.Header>
-              <h4>{p.title}</h4>
+              <b>ПРОДУКТ #{p.id}</b>
             </Card.Header>
-            <Card.Body>{p.price} руб.</Card.Body>
+            <Card.Body>
+              {p.title} <br />
+              {p.price} руб.
+            </Card.Body>
             <ListGroup horizontal>
               {p.categories.map((c) => (
                 <ListGroup.Item variant="primary" key={c.id}>

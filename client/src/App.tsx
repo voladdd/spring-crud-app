@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./App.css";
+import Header from "./components/Header";
 import Products from "./components/Products";
 import { fetchCategories, ICategory } from "./http/categoryApi";
 import { fetchProducts, IProduct } from "./http/productApi";
@@ -18,7 +19,14 @@ function App() {
   }, []);
   return (
     <div className="App">
-      {products ? <Products products={products}></Products> : null}
+      {products && categories ? (
+        <>
+          <Header onSetCreateProduct={setProducts}></Header>
+          <Products products={products}></Products>
+        </>
+      ) : (
+        "Data not fetched..."
+      )}
     </div>
   );
 }
