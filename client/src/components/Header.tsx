@@ -8,16 +8,24 @@ import {
   Button,
 } from "react-bootstrap";
 import { ICategory } from "../http/categoryApi";
-import { fetchProducts, IProduct, postCreateProduct } from "../http/productApi";
+import {
+  fetchProducts,
+  IProduct,
+  postAddCategoryToProduct,
+  postCreateProduct,
+} from "../http/productApi";
 
 interface HeaderProps {
   onSetCreateProduct: Dispatch<SetStateAction<IProduct[] | undefined>>;
+  categories: ICategory[];
 }
 
 const Header = (props: HeaderProps) => {
   const [productTitle, setProductTitle] = useState("");
   const [productPrice, setProductPrice] = useState(0);
+  const [productId, setProductId] = useState(0);
   const [formCreateProduct, setFormCreateProduct] = useState<boolean>(false);
+  const [selectedCategory, setSelectedCategory] = useState(0);
 
   return (
     <Navbar bg="light" expand="lg">
@@ -72,19 +80,18 @@ const Header = (props: HeaderProps) => {
                 onChange={(e) => setProductPrice(Number(e.target.value))}
               />
             </Form.Group>
-            {/* <Form.Group className="mb-3">
+            <Form.Group className="mb-3">
               <Form.Label>Категория</Form.Label>
-              <Form.Select>
+              <Form.Select
+                onChange={(e) => {
+                  setSelectedCategory(e.target.selectedIndex);
+                }}
+              >
                 {props.categories.map((c) => (
-                  <option
-                    key={c.id}
-                    onSelect={() => setCategoryCreateProduct(c.id)}
-                  >
-                    {c.title}
-                  </option>
+                  <option key={c.id}>{c.title}</option>
                 ))}
               </Form.Select>
-            </Form.Group> */}
+            </Form.Group>
           </Form>
         </Modal.Body>
         <Modal.Footer>
@@ -96,12 +103,24 @@ const Header = (props: HeaderProps) => {
           </Button>
           <Button
             variant="primary"
-            onClick={() => {
-              postCreateProduct(productTitle, productPrice).then(() => {
-                fetchProducts().then((date) => {
-                  props.onSetCreateProduct(date);
-                });
-              });
+            onClick={async () => {
+              // postCreateProduct(productTitle, productPrice).then(() => {
+              //   fetchProducts().then((data) => {
+              //     postAddCategoryToProduct(data.length - 1, 1).then(() => {
+              //       props.onSetCreateProduct(data);
+              //     });
+              //   });
+              // });
+
+              await postCreateProduct(productTitle, productPrice);
+              let dataProducts = await fetchProducts();
+              await postAddCategoryToProduct(
+                dataProducts.length,
+                selectedCategory + 1
+              );
+              dataProducts = await fetchProducts();
+              props.onSetCreateProduct(dataProducts);
+
               setFormCreateProduct(false);
             }}
           >

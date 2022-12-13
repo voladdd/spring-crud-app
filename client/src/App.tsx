@@ -21,8 +21,15 @@ function App() {
     <div className="App">
       {products && categories ? (
         <>
-          <Header onSetCreateProduct={setProducts}></Header>
-          <Products products={products}></Products>
+          <Header
+            onSetCreateProduct={setProducts}
+            categories={categories}
+          ></Header>
+          <Products
+            onSetCreateProduct={setProducts}
+            products={products}
+            categories={categories}
+          ></Products>
         </>
       ) : (
         "Data not fetched..."
