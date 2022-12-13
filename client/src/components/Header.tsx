@@ -30,7 +30,7 @@ const Header = (props: HeaderProps) => {
   return (
     <Navbar bg="light" expand="lg">
       <Container className="d-flex justify-content-between">
-        <Navbar.Brand href="#home">React + Spring</Navbar.Brand>
+        <Navbar.Brand href="#home">Spring + React</Navbar.Brand>
         <NavDropdown
           title="Добавить"
           id="basic-nav-dropdown"

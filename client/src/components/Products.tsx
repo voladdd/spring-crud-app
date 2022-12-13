@@ -26,7 +26,7 @@ const Products = (props: ProductsProps) => {
   const [productId, setProductId] = useState(0);
   const [productTitle, setProductTitle] = useState("");
   const [productPrice, setProductPrice] = useState(0);
-  const [categoryCreateProduct, setCategoryCreateProduct] = useState(0);
+  const [selectedCategory, setSelectedCategory] = useState(0);
 
   return (
     <Card>
@@ -41,7 +41,7 @@ const Products = (props: ProductsProps) => {
                   setProductTitle(p.title);
                   setProductPrice(p.price);
                   setProductId(p.id);
-                  setCategoryCreateProduct(p.categories[0].id);
+                  setSelectedCategory(p.categories[0].id);
                   setFormChangeProduct(true);
                 }}
               >
@@ -95,14 +95,13 @@ const Products = (props: ProductsProps) => {
             </Form.Group>
             <Form.Group className="mb-3">
               <Form.Label>Категория</Form.Label>
-              <Form.Select>
+              <Form.Select
+                onChange={(e) => {
+                  setSelectedCategory(e.target.selectedIndex);
+                }}
+              >
                 {props.categories.map((c) => (
-                  <option
-                    key={c.id}
-                    value={categoryCreateProduct}
-                    selected={c.id === categoryCreateProduct}
-                    onChange={() => setCategoryCreateProduct(c.id)}
-                  >
+                  <option key={c.id} selected={c.id === selectedCategory}>
                     {c.title}
                   </option>
                 ))}
@@ -125,16 +124,15 @@ const Products = (props: ProductsProps) => {
           </Button>
           <Button
             variant="primary"
-            onClick={() => {
-              putUpdateProduct(
+            onClick={async () => {
+              await putUpdateProduct(
                 productId,
                 productTitle,
                 productPrice,
-                categoryCreateProduct
-              ).then(() => {
-                fetchProducts().then((date) => {
-                  props.onSetCreateProduct(date);
-                });
+                selectedCategory + 1
+              );
+              fetchProducts().then((data) => {
+                props.onSetCreateProduct(data);
               });
               setFormChangeProduct(false);
             }}

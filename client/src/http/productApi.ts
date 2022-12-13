@@ -18,6 +18,16 @@ export const deleteProduct = async (id: number): Promise<any> => {
   return data;
 };
 
+export const deleteCategoryFromProduct = async (
+  id: number,
+  categoryId: number
+): Promise<any> => {
+  const { data } = await $host.delete(
+    `/products/${id}/category?categoryId=${categoryId}`
+  );
+  return data;
+};
+
 export const postCreateProduct = async (
   title: string = "",
   price: number = 1
@@ -46,6 +56,10 @@ export const putUpdateProduct = async (
   categoryId: number
 ): Promise<any> => {
   await $host.put(`/products/${id}?title=${title}&price=${price}`);
+  const currentCategoryId = (await fetchProducts()).filter(
+    (p) => p.id === id
+  )[0].categories[0].id;
+  await deleteCategoryFromProduct(id, currentCategoryId);
   const response = await postAddCategoryToProduct(id, categoryId);
   return response;
 };
