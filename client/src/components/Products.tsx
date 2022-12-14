@@ -53,13 +53,7 @@ const Products = (props: ProductsProps) => {
               {p.title} <br />
               {p.price} руб.
             </Card.Body>
-            <ListGroup horizontal>
-              {p.categories.map((c) => (
-                <ListGroup.Item variant="primary" key={c.id}>
-                  {c.title}
-                </ListGroup.Item>
-              ))}
-            </ListGroup>
+            <Card.Footer>{p.categories[0].title}</Card.Footer>
           </Card>
         ))}
       </CardGroup>
