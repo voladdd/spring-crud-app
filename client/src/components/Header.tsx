@@ -23,6 +23,7 @@ interface HeaderProps {
   onSetCreateProduct: Dispatch<SetStateAction<IProduct[] | undefined>>;
   updateCategory: Dispatch<SetStateAction<ICategory[] | undefined>>;
   categories: ICategory[];
+  products: IProduct[];
 }
 
 const Header = (props: HeaderProps) => {
@@ -64,14 +65,21 @@ const Header = (props: HeaderProps) => {
           className="align-self-end"
         >
           <NavDropdown.Item
-            href="#action/3.1"
             onClick={() => {
-              setFormCreateProduct(true);
+              props.onSetCreateProduct(
+                [...props.products].sort((a, b) => b.price - a.price)
+              );
             }}
           >
             Сначала дорогие
           </NavDropdown.Item>
-          <NavDropdown.Item href="#action/3.4">
+          <NavDropdown.Item
+            onClick={() => {
+              props.onSetCreateProduct(
+                [...props.products].sort((a, b) => a.price - b.price)
+              );
+            }}
+          >
             Сначала дешевые
           </NavDropdown.Item>
         </NavDropdown>

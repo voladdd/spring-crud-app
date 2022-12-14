@@ -27,6 +27,7 @@ function App() {
             updateCategory={setCategories}
             onSetCreateProduct={setProducts}
             categories={categories}
+            products={products}
           ></Header>
           <Container>
             <Row>

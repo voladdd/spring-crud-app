@@ -35,7 +35,7 @@ const Products = (props: ProductsProps) => {
         {props.products.map((p) => (
           <Card key={p.id}>
             <Card.Header>
-              <h3>ПРОДУКТ #{p.id}</h3>
+              <h3>🍻ПРОДУКТ #{p.id}</h3>
               <Button
                 variant="outline-primary"
                 onClick={() => {

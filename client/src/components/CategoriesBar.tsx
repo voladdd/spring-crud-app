@@ -1,5 +1,5 @@
 import React, { Dispatch, SetStateAction, useState } from "react";
-import { Badge, ListGroup } from "react-bootstrap";
+import { Badge, Container, ListGroup } from "react-bootstrap";
 import { ICategory } from "../http/categoryApi";
 import {
   fetchProducts,
@@ -38,7 +38,12 @@ const CategoriesBar = (props: CategoriesBarProps) => {
           }}
         >
           {c.title}
-          <Badge bg="secondary">{c.productsCount}</Badge>
+          <div className="d-flex flex-column">
+            <Badge bg="secondary">{c.productsCount} шт.</Badge>
+            <Badge bg="secondary" className="mt-2">
+              {c.totalPrice} руб.
+            </Badge>
+          </div>
         </ListGroup.Item>
       ))}
     </ListGroup>
