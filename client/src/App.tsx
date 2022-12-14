@@ -31,7 +31,11 @@ function App() {
           <Container>
             <Row>
               <Col>
-                <CategoriesBar categories={categories}></CategoriesBar>
+                <CategoriesBar
+                  updateProducts={setProducts}
+                  products={products}
+                  categories={categories}
+                ></CategoriesBar>
               </Col>
               <Col xs="10">
                 <Products

@@ -137,6 +137,9 @@ const Products = (props: ProductsProps) => {
               fetchProducts().then((data) => {
                 props.onSetCreateProduct(data);
               });
+              fetchCategories().then((data) => {
+                props.updateCategory(data);
+              });
               setFormChangeProduct(false);
             }}
           >

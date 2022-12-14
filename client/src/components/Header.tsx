@@ -7,7 +7,11 @@ import {
   Form,
   Button,
 } from "react-bootstrap";
-import { fetchCategories, ICategory } from "../http/categoryApi";
+import {
+  fetchCategories,
+  ICategory,
+  postAddCategory,
+} from "../http/categoryApi";
 import {
   fetchProducts,
   IProduct,
@@ -23,9 +27,11 @@ interface HeaderProps {
 
 const Header = (props: HeaderProps) => {
   const [productTitle, setProductTitle] = useState("");
-  const [productPrice, setProductPrice] = useState(0);
+  const [categoryTitle, setCategoryTitle] = useState("");
+  const [productPrice, setProductPrice] = useState<number>();
   const [productId, setProductId] = useState(0);
   const [formCreateProduct, setFormCreateProduct] = useState<boolean>(false);
+  const [formCreateCategory, setFormCreateCategory] = useState<boolean>(false);
   const [selectedCategory, setSelectedCategory] = useState(0);
 
   return (
@@ -38,14 +44,17 @@ const Header = (props: HeaderProps) => {
           className="align-self-end"
         >
           <NavDropdown.Item
-            href="#action/3.1"
             onClick={() => {
               setFormCreateProduct(true);
             }}
           >
             Добавить продукт
           </NavDropdown.Item>
-          <NavDropdown.Item href="#action/3.4">
+          <NavDropdown.Item
+            onClick={() => {
+              setFormCreateCategory(true);
+            }}
+          >
             Добавить категорию
           </NavDropdown.Item>
         </NavDropdown>
@@ -136,6 +145,47 @@ const Header = (props: HeaderProps) => {
               props.updateCategory(categories);
 
               setFormCreateProduct(false);
+            }}
+          >
+            Создать
+          </Button>
+        </Modal.Footer>
+      </Modal>
+      <Modal
+        show={formCreateCategory}
+        onHide={() => setFormCreateCategory(false)}
+      >
+        <Modal.Header closeButton>
+          <Modal.Title>Добавление категории</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Form>
+            <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+              <Form.Label>Название</Form.Label>
+              <Form.Control
+                type="text"
+                placeholder="Название категории..."
+                value={categoryTitle}
+                onChange={(e) => setCategoryTitle(e.target.value)}
+                autoFocus
+              />
+            </Form.Group>
+          </Form>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button
+            variant="secondary"
+            onClick={() => setFormCreateCategory(false)}
+          >
+            Закрыть
+          </Button>
+          <Button
+            variant="primary"
+            onClick={async () => {
+              await postAddCategory(categoryTitle);
+              const categories = await fetchCategories();
+              props.updateCategory(categories);
+              setFormCreateCategory(false);
             }}
           >
             Создать

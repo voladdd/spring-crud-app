@@ -12,3 +12,8 @@ export const fetchCategories = async (): Promise<ICategory[]> => {
   const { data } = await $host.get("/categories");
   return data;
 };
+
+export const postAddCategory = async (title: string): Promise<any> => {
+  const response = await $host.post("/categories", { title });
+  return response;
+};

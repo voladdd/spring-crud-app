@@ -63,3 +63,10 @@ export const putUpdateProduct = async (
   const response = await postAddCategoryToProduct(id, categoryId);
   return response;
 };
+
+export const getProductsByCategory = async (
+  id: number
+): Promise<IProduct[]> => {
+  const { data } = await $host.get(`/products/category/${id}`);
+  return data;
+};
