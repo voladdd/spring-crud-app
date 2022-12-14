@@ -98,7 +98,7 @@ const Products = (props: ProductsProps) => {
               <Form.Label>Категория</Form.Label>
               <Form.Select
                 onChange={(e) => {
-                  setSelectedCategory(e.target.selectedIndex);
+                  setSelectedCategory(e.target.selectedIndex + 1);
                 }}
               >
                 {props.categories.map((c) => (
@@ -132,7 +132,7 @@ const Products = (props: ProductsProps) => {
                 productId,
                 productTitle,
                 productPrice,
-                selectedCategory + 1
+                selectedCategory
               );
               fetchProducts().then((data) => {
                 props.onSetCreateProduct(data);
