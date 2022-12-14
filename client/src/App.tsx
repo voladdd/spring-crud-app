@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
+import { Col, Container, Row } from "react-bootstrap";
 import "./App.css";
+import CategoriesBar from "./components/CategoriesBar";
 import Header from "./components/Header";
 import Products from "./components/Products";
 import { fetchCategories, ICategory } from "./http/categoryApi";
@@ -22,14 +24,25 @@ function App() {
       {products && categories ? (
         <>
           <Header
+            updateCategory={setCategories}
             onSetCreateProduct={setProducts}
             categories={categories}
           ></Header>
-          <Products
-            onSetCreateProduct={setProducts}
-            products={products}
-            categories={categories}
-          ></Products>
+          <Container>
+            <Row>
+              <Col>
+                <CategoriesBar categories={categories}></CategoriesBar>
+              </Col>
+              <Col xs="10">
+                <Products
+                  updateCategory={setCategories}
+                  onSetCreateProduct={setProducts}
+                  products={products}
+                  categories={categories}
+                ></Products>
+              </Col>
+            </Row>
+          </Container>
         </>
       ) : (
         "Data not fetched..."

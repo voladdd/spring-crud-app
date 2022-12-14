@@ -7,7 +7,7 @@ import {
   Form,
   Button,
 } from "react-bootstrap";
-import { ICategory } from "../http/categoryApi";
+import { fetchCategories, ICategory } from "../http/categoryApi";
 import {
   fetchProducts,
   IProduct,
@@ -17,6 +17,7 @@ import {
 
 interface HeaderProps {
   onSetCreateProduct: Dispatch<SetStateAction<IProduct[] | undefined>>;
+  updateCategory: Dispatch<SetStateAction<ICategory[] | undefined>>;
   categories: ICategory[];
 }
 
@@ -46,6 +47,23 @@ const Header = (props: HeaderProps) => {
           </NavDropdown.Item>
           <NavDropdown.Item href="#action/3.4">
             Добавить категорию
+          </NavDropdown.Item>
+        </NavDropdown>
+        <NavDropdown
+          title="Фильтр"
+          id="basic-nav-dropdown"
+          className="align-self-end"
+        >
+          <NavDropdown.Item
+            href="#action/3.1"
+            onClick={() => {
+              setFormCreateProduct(true);
+            }}
+          >
+            Сначала дорогие
+          </NavDropdown.Item>
+          <NavDropdown.Item href="#action/3.4">
+            Сначала дешевые
           </NavDropdown.Item>
         </NavDropdown>
       </Container>
@@ -104,14 +122,6 @@ const Header = (props: HeaderProps) => {
           <Button
             variant="primary"
             onClick={async () => {
-              // postCreateProduct(productTitle, productPrice).then(() => {
-              //   fetchProducts().then((data) => {
-              //     postAddCategoryToProduct(data.length - 1, 1).then(() => {
-              //       props.onSetCreateProduct(data);
-              //     });
-              //   });
-              // });
-
               await postCreateProduct(productTitle, productPrice);
               let dataProducts = await fetchProducts();
               const lastId = dataProducts
@@ -120,7 +130,10 @@ const Header = (props: HeaderProps) => {
               console.log(lastId);
               await postAddCategoryToProduct(lastId, selectedCategory + 1);
               dataProducts = await fetchProducts();
+              const categories = await fetchCategories();
+
               props.onSetCreateProduct(dataProducts);
+              props.updateCategory(categories);
 
               setFormCreateProduct(false);
             }}

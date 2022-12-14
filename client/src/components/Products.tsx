@@ -7,7 +7,7 @@ import {
   ListGroup,
   Modal,
 } from "react-bootstrap";
-import { ICategory } from "../http/categoryApi";
+import { fetchCategories, ICategory } from "../http/categoryApi";
 import {
   deleteProduct,
   fetchProducts,
@@ -17,6 +17,7 @@ import {
 
 interface ProductsProps {
   onSetCreateProduct: Dispatch<SetStateAction<IProduct[] | undefined>>;
+  updateCategory: Dispatch<SetStateAction<ICategory[] | undefined>>;
   products: IProduct[];
   categories: ICategory[];
 }
@@ -117,6 +118,8 @@ const Products = (props: ProductsProps) => {
               fetchProducts().then((data) => {
                 props.onSetCreateProduct(data);
               });
+              const categories = await fetchCategories();
+              props.updateCategory(categories);
               setFormChangeProduct(false);
             }}
           >

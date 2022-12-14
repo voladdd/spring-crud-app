@@ -4,6 +4,7 @@ export interface ICategory {
   id: number;
   title: string;
   totalPrice: number;
+  productsCount: number;
   topPrices: number[];
 }
 
